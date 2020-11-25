@@ -1,0 +1,17 @@
+FROM centos:7
+WORKDIR /config
+ENV FLASK_RUN_HOST=0.0.0.0
+#RUN apk add --no-cache gcc musl-dev linux-headers
+RUN yum -y install epel-release && yum clean all
+RUN yum -y install python-pip && yum clean all
+RUN yum -y install opencv opencv-devel opencv-python && yum clean all
+RUN yum -y install python3
+EXPOSE 5000
+COPY . .
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install "pillow<7"
+RUN python3 -m pip install numpy requests progressbar keras tensorflow
+RUN python3 -m pip install flask
+RUN python3 -m pip install cvlib
+RUN python3 -m pip install opencv-python
+CMD [ "python3", "/config/webserver3.py" ]
